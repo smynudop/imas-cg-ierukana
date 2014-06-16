@@ -1,7 +1,7 @@
 
 ImasCg.Ierukana = function () {
 
-	var idols = null;
+	var jsonData = null;
 
 	/**
 	 * SessionStorageから値を取得する。
@@ -28,19 +28,29 @@ ImasCg.Ierukana = function () {
 			sessionStorage.setItem(key, item);
 	};
 
+	/**
+	 * 入力した名前がヒットしているか調べる
+	 */
+	var isMatchName = function(str, mode) {
+
+	};
+
 	return {
-		
+
 		init: function () {
-			idols = getCache("nations");
-			if (idols) return;
+			jsonData = getCache("imas-cg-ierukana");
+			if (jsonData) return;
 
 			$.get('data/idols.json').done(function(data) {
-				idols = $.parseJSON(data); 
+				jsonData = $.parseJSON(data); 
 				setCache("nations", data);
 			}).fail(function(errorData) {
 				// TODO エラー処理
 			});
-		}
+		},
 
+		try: function (name) {
+
+		}
 	};
 }();
