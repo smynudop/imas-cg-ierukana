@@ -4,12 +4,56 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>仮タイトル</title>
-		<link href="//netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet">
-		<link href="css/ierukana.css" rel="stylesheet">
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<!-- <script src="http://underscorejs.org/underscore-min.js"></script> -->
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 		<script src="js/ierukana.js"></script>
+		<link href="css/ierukana.css" rel="stylesheet">
 	</head>
 	<body>
-		<input type="button" id="" value="ゲーム開始" />
+		<script>
+			$(document).ready(function(){
+				ImasCg.Ierukana.init();
+			});
+		</script>
+		<div class="container">
+			<div id="header" class="row">
+				<h1>Hello World!</h1>
+				<input type="text" id="answerText" class="answer" />
+				<input type="button" id="answerButton" class="btn btn-primary answerButton" value="答える" />
+				<input type="button" id="gameStartButton" class="btn btn-success gameStartButton" value="ゲーム開始" />
+				<br/>
+				<div id="console"></div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<table id="cu_idols" class="table table-bordered">
+						<tbody>
+							<tr id="cu_header"><th>Cute あと○人</th></tr>
+							<tr><td>てすと</td></tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-4">
+					<table id="co_idols" class="table table-bordered">
+						<tbody>
+							<tr id="co_header"><th>Cool あと○人</th></tr>
+							<tr><td>てすと</td></tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-4">
+					<table id="pa_idols" class="table table-bordered">
+						<tbody>
+							<tr id="pa_header"><th>Passion あと○人</th></tr>
+							<tr><td>てすと</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div id="footer" class="row">
+			</div>
+		</div>
 	</body>
 </html>
