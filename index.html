@@ -3,50 +3,90 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>モバマスアイドル190人言えるかな？</title>
+		<title>test</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<!--<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>-->
 		<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 		<script src="js/ierukana.js"></script>
 		<link href="css/ierukana.css" rel="stylesheet">
 	</head>
 	<body>
 		<script>
-			$(document).ready(function(){
-				ImasCg.Ierukana.init();
-			});
+			$(document).ready(function(){ ImasCg.Ierukana.init(); });
 		</script>
 		<div class="container">
-			<div id="header" class="row">
-				<h3 class="text-muted">モバマスアイドル190人言えるかな？</h1>
-				<input type="text" id="answerText" class="answer" />
-				<input type="button" id="answerButton" class="btn btn-primary answerButton" value="答える" />
-				<input type="button" id="gameStartButton" class="btn btn-success gameStartButton" value="ゲーム開始" />
-				<br/>
-				<div id="console"></div>
+			<div id="header">
+				<h2 class="text-muted"><span class="numOfIdol"></span></h3>
 			</div>
-			<div class="row">
-				<table id="cu_idols" class="table table-bordered">
-					<thead>
-						<tr id="cu_header"><th colspan="6">Cute <span class="rest">あと○人</span></th></tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
-				<table id="co_idols" class="table table-bordered">
-					<thead>
-						<tr id="co_header"><th colspan="6">Cool <span class="rest">あと○人</span></th></tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
-				<table id="pa_idols" class="table table-bordered">
-					<thead>
-						<tr id="pa_header"><th colspan="6">Passion <span class="rest">あと○人</span></th></tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
+			<div class="contents">
+				<div id="readme" class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">遊び方</h3>
+					</div>
+					<div class="panel-body">
+					</div>
+				</div>
+				<div id="difficultySelect" class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">難易度選択</h3>
+					</div>
+					<div class="panel-body">
+						<div class="radio">
+							<label>
+								<input id="difficultyRadio1" type="radio" name="difficultyRadio" value="easy" />
+								EASY：苗字か名前をひらがなか漢字で入力するだけで正解になります。初心者モバマスＰ向け。
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input id="difficultyRadio2" type="radio" name="difficultyRadio" value="normal" checked />
+								NORMAL：フルネームをひらがなか漢字で入力すると正解になります。一般モバマスＰ向け。
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input id="difficultyRadio3" type="radio" name="difficultyRadio" value="hard" />
+								HARD：フルネームを漢字で入力しないと正解になりません。輝きの向こう側を目指すＰ向け。
+							</label>
+						</div>
+						<input type="button" id="gameStartButton" class="btn btn-success" value="ゲーム開始" />
+					</div>
+				</div>
+				<div id="answerArea">
+					<div id="timerArea">
+						<h2>000:00:00</h2>
+					</div>
+					<div id="remainArea">
+						<h2>残り<span id="numOfRest">151</span>人</h2>
+					</div>
+					<input type="text" id="answerText" class="answer" />
+					<input type="button" id="answerButton" class="btn btn-primary answerButton" value="答える" />
+					<br/>
+					<div id="messageArea">&nbsp;</div>
+				</div>
+				<div id="tableArea">
+					<table id="cu_idols" class="table table-bordered">
+						<thead>
+							<tr id="cu_header"><th colspan="10">Cute <span class="rest">あと○人</span></th></tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+					<table id="co_idols" class="table table-bordered">
+						<thead>
+							<tr id="co_header"><th colspan="10">Cool <span class="rest">あと○人</span></th></tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+					<table id="pa_idols" class="table table-bordered">
+						<thead>
+							<tr id="pa_header"><th colspan="10">Passion <span class="rest">あと○人</span></th></tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
 			</div>
 			<div id="footer">
 				<p><span>パク</span>りすぺくと：<a href="http://hoget.web.fc2.com/pokesay.html" target="_blank">初代ポケモン151匹言えるかな？</a></p>

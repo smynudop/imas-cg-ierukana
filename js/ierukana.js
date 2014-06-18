@@ -201,7 +201,7 @@ var jsonData = {
 var ImasCg = (ImasCg ? ImasCg : {});
 ImasCg.Ierukana = function () {
 
-	var compare_mode_enum = {
+	var COMPARE_MODE_ENUM = {
 		full_name: 1,
 		full_name_kana: 2,
 		first_name: 4,
@@ -209,9 +209,13 @@ ImasCg.Ierukana = function () {
 		last_name: 16,
 		last_name_kana: 32,
 	};
+	var COLUMNS_IN_ROW = 10;
 
 	//var jsonData = null;
+	var numOfIdol = null;
 	var compare_mode = null;
+	var difficulty = null;
+	var startUnixTime = null;
 
 	var getCache = function(key) {
 		if (!sessionStorage) return null;
@@ -226,6 +230,48 @@ ImasCg.Ierukana = function () {
 			sessionStorage.setItem(key, item);
 	};
 
+	var 
+
+	var gameStartCountDown = function (count) {
+		if ($(".gameStartButton").val() == "    降参     ") {
+			giveUp();
+			return;
+		}
+
+		$(".gameStartButton").val("       " + count + "       ").prop("disabled", "false");
+		if (count == 0) {
+			gameStart();
+			return;
+		} else {
+			setTimeout(function() {
+				gameStartCountDown(count - 1);
+			}, 1000);
+		}
+	}
+
+	var gameStart = function () {
+		$(".gameStartButton").removeClass("btn-success").addClass("btn-danger").prop("disabled", "").val("    降参     ");
+		$(".submitanswerButton").prop("disabled", "");
+		startUnixTime = parseInt((new Date) / 1);
+		clearCount = setInterval(function() {
+			countUpStart(startUnixTime);
+		}, 10);
+	}
+
+	var countUpStart = function () {
+		var nextUnixTime = parseInt((new Date) / 1);
+		var wTime;
+		var minutes = (nextUnixTime - startUnixTime) / 60000;
+		wTime = (nextUnixTime - startUnixTime) % 60000;
+		var second = (wTime / 1000);
+
+		var milliSecond = Math.floor((second * 100)) % 100;
+		second = Math.floor(second);
+		minutes = Math.floor(minutes);
+
+		$(".gameTimer H2").html(("00" + minutes).slice(-3) + ":" + ("0" + second).slice(-2) + ":" + ("0" + milliSecond).slice(-2));
+	}
+
 	var getIdolById = function(id) {
 		$.each(jsonData.idols, function(index, idol) {
 			if (idol.id === id)
@@ -237,7 +283,7 @@ ImasCg.Ierukana = function () {
 	var getIdolByName = function(name, compare_flags) {
 		var result = null;
 		$.each(jsonData.idols, function(index, idol) {
-			$.each(compare_mode_enum, function(key, compare_flag) {
+			$.each(COMPARE_MODE_ENUM, function(key, compare_flag) {
 				if (compare_flags & compare_flag) {
 					if (idol[key].replace("・", "") === name) {
 						result = idol;
@@ -279,22 +325,52 @@ ImasCg.Ierukana = function () {
 		var answer = $('#answerText').val();
 		answer = answer.replace("・", "");
 
-		var idol = getIdolByName(name, compare_mode);
+		var idol = getIdolByName(answer, compare_mode);
 		if (idol) {
 			// ヒットした時、該当アイドル名をオープン
 			if (! idol.answered) {
 				addIdolToTable(idol);
 				idol.answered = true;
 			} else {
-				$('#console').text('その子はもう解答済みです');
+				$('#messageArea').text('その子はもう解答済みです');
 			}
 		} else {
-			$('#console').text('その名前の子は存在しません');
+			$('#messageArea').text('その名前の子は存在しません');
 		}
 	};
 
 	var gameStartButtonSubmit = function () {
-		// タイマーカウント開始
+		if ($("#gameStartButton").hasClass("btn-success")) {
+			setDifficulty();
+			initTableByAttribute('cu');
+			initTableByAttribute('co');
+			initTableByAttribute('pa');
+			$("input.tweet").remove();
+			answerSum = 0;
+			$("#numOfRest").text(numOfIdol);
+		}
+		gameStartCountDown(3);
+	};
+
+	var setDifficulty = function () {
+		difficulty = $('input[name="difficultyRadio"]:checked').val();
+		switch (difficulty) {
+			case 'hard':
+				compare_mode = COMPARE_MODE_ENUM.full_name;
+			case 'normal':
+				compare_mode = compare_mode |
+					COMPARE_MODE_ENUM.full_name_kana;
+			case 'easy':
+				compare_mode = compare_mode |
+					COMPARE_MODE_ENUM.first_name |
+					COMPARE_MODE_ENUM.first_name_kana |
+					COMPARE_MODE_ENUM.last_name |
+					COMPARE_MODE_ENUM.last_name_kana;
+		}
+	};
+
+	var gameStartButtonSubmit = function () {
+		setDifficulty();
 	};
 
 	var gameEndButtonSubmit = function () {
@@ -315,10 +391,10 @@ ImasCg.Ierukana = function () {
 		};
 		$.each(jsonData.idols, function(index, idol) {
 			if (idol.attr === attr) {
-				var $td = $('<td id="' + idol.id + '"></td>');
+				var $td = $('<td id="' + idol.id + '">&nbsp;</td>');
 				$tr.append($td.clone());
 				cnt++;
-				if (cnt == 6) {
+				if (cnt == COLUMNS_IN_ROW) {
 					appendRow();
 				}
 			}
@@ -344,13 +420,8 @@ ImasCg.Ierukana = function () {
 			// 	// TODO エラー処理
 			// });
 
-			compare_mode =
-				compare_mode_enum.full_name |
-				compare_mode_enum.full_name_kana;
-
-			initTableByAttribute('cu');
-			initTableByAttribute('co');
-			initTableByAttribute('pa');
+			numOfIdol = jsonData.idols.length;
+			$('.numOfIdol').text(numOfIdol);
 
 			$('#answerText').keypress(function(e) {
 				if (e.which == 13) {
@@ -359,6 +430,9 @@ ImasCg.Ierukana = function () {
 			});
 			$('#answerButton').click(function() {
 				answerButtonSubmit();
+			});
+			$('#gameStartButton').click(function() {
+				gameStartButtonSubmit();
 			});
 		}
 
