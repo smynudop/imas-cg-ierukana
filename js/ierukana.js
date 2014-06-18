@@ -16,8 +16,9 @@ ImasCg.Ierukana = function () {
 	var MESSAGE = {
 		'gameClear': 'ゲームクリア！',
 		'alreadyAnswer': 'その子はもう解答済みです。',
-		'notExist': 'その名前の子は存在しません。',
+		'notExist': '該当する名前が見つかりません。',
 	};
+	var THREE_ATTRIBUTES_ARRAY = ['cu', 'co', 'pa'];
 	var COLUMNS_IN_ROW = 10;
 
 	//var jsonData = null;
@@ -28,6 +29,7 @@ ImasCg.Ierukana = function () {
 	var difficulty = null;
 	var startUnixTime = null;
 	var clearCount = null;
+	var lastIdolName = null;
 
 	var getCache = function(key) {
 		if (!sessionStorage) return null;
@@ -75,6 +77,13 @@ ImasCg.Ierukana = function () {
 		return cnt;
 	};
 
+	var updateIdolsNum = function () {
+		$('#numOfRest').text(numOfIdols['all'] - numOfAnswers['all']);
+		$.each(THREE_ATTRIBUTES_ARRAY, function(index, attr) {
+			$('#' + attr + '_idols span.rest').text('あと' + (numOfIdols[attr] - numOfAnswers[attr]) + '人');
+		});
+	};
+
 	var giveUp = function () {
 		clearInterval(clearCount);
 		$('#gameStartButton').removeClass('btn-danger').addClass('btn-success').val(BUTTON_LABEL['gameStart']);
@@ -86,17 +95,17 @@ ImasCg.Ierukana = function () {
 			}
 		});
 
-		//$('#answerArea').append('<input type="button" value="結果をツイート" class="btn tweet">');
+		$('#gameStartButton').after('<input type="button" id="resultTweetButton" value="結果をツイート" class="btn btn-info">');
 	};
 
 	var gameClear = function () {
-		alert('ゲームクリア！');
+		alert(MESSAGE['gameClear']);
 
 		clearInterval(clearCount);
 		$('#gameStartButton').removeClass('btn-danger').addClass('btn-success').val(BUTTON_LABEL['gameStart']);
 		$('#answerButton').prop('disabled', 'false');
 
-		//$('#answerArea').append('<input type="button" value="結果をツイート" class="btn tweet">');
+		$('#gameStartButton').after('<input type="button" id="resultTweetButton" value="結果をツイート" class="btn btn-info">');
 	};
 
 	var gameStartCountDown = function (count) {
@@ -130,33 +139,30 @@ ImasCg.Ierukana = function () {
 		$('#timerArea h2').html(('00' + minutes).slice(-3) + ':' + ('0' + second).slice(-2) + ':' + ('0' + milliSecond).slice(-2));
 	};
 
-	var tweetButtonSubmit = function () {
-		resultTweet = 'https://twitter.com/intent/tweet?hashtags=アイドル言えるかな&text='
-		var tweetText = '';
-		var clearTime = '';
-		var incorrectCount;
-		clearTime = $('#timerArea h2').text();
+	var resultTweetButtonSubmit = function () {
+		var clearTime = $('#timerArea h2').text();
 		clearTime = clearTime.replace(':', "分");
 		clearTime = clearTime.replace(':', "秒");
 
-		if (answerSum == numOfIdols['all']) {
-
-			tweetText = "あなたは" + clearTime + "でアイドル" + numOfIdols['all'] + "人を全て言えた真・アイドルマスターです。 最後に言ったアイドルは" + lastidolName + "です。";
+		var tweetText = '';
+		if (numOfAnswers['all'] == numOfIdols['all']) {
+			tweetText = "あなたは" + clearTime + "でアイドル" + numOfIdols['all'] + "人を全て言えた真・アイドルマスターです。 最後に言ったアイドルは" + lastIdolName + "です。";
 		} else {
-			//	forgetidol = idolsArray[answerFlag.indexOf(0)];
+			//	forgetIdols = idolsArray[answerFlag.indexOf(0)];
 
-			for (var i = 0; i < 151; i++) {
+			for (var i = 0; i < numOfIdols['all']; i++) {
 				answerFlagCopy[i] = answerFlag[i];
 			}
 
-			for (var i = 0; i < 151 - answerSum; i++) {
+			for (var i = 0; i < numOfIdols['all'] - answerSum; i++) {
 				incorrectArray[i] = idolsArray[answerFlagCopy.indexOf(0)];
 				answerFlagCopy[answerFlagCopy.indexOf(0)] = 1;
 			}
-			forgetidol = incorrectArray[Math.floor(Math.random() * (151 - answerSum))];
+			forgetIdols = incorrectArray[Math.floor(Math.random() * (numOfIdols['all'] - answerSum))];
 
-			tweetText = "あなたは" + clearTime + "かけて" + (answerSum) + "人のアイドルを言うことができました。 " + forgetidol + "等" + (151 - answerSum) + "人を言えませんでした。 精進しましょう ";
+			tweetText = "あなたは" + clearTime + "かけて" + (numOfAnswers['all']) + "人のアイドルを言うことができました。 " + forgetIdols + "等" + (numOfIdols['all'] - numOfAnswers['all']) + "人を言えませんでした。 精進しましょう。";
 		}
+		var resultTweet = 'https://twitter.com/intent/tweet?hashtags=モバマスアイドル言えるかな&text='
 		resultTweet = resultTweet + tweetText + "http://hoget.web.fc2.com/pokesay.html";
 		window.open(encodeURI(resultTweet));
 	};
@@ -170,6 +176,14 @@ ImasCg.Ierukana = function () {
 			if (! idol.answered) {
 				$('#' + idol.id).addClass('answered').text(idol.full_name);
 				idol.answered = true;
+				lastIdolName = idol.full_name;
+
+				numOfAnswers['all'] += 1;
+				numOfAnswers[idol.attr] += 1;
+				updateIdolsNum();
+
+				$('#answerText').val('');
+				$('#messageArea').text('');
 			} else {
 				$('#messageArea').text(MESSAGE['alreadyAnswer']);
 			}
@@ -182,12 +196,16 @@ ImasCg.Ierukana = function () {
 		var $btn = $('#gameStartButton');
 		if ($btn.hasClass('btn-success')) {
 			setDifficulty();
+			$.each(THREE_ATTRIBUTES_ARRAY, function(index, attr) { initTableByAttribute(attr); });
 			initTableByAttribute('cu');
 			initTableByAttribute('co');
 			initTableByAttribute('pa');
-			$("input.tweet").remove();
-			answerSum = 0;
-			$("#numOfRest").text(numOfIdols['all']);
+			$("#resultTweetButton").remove();
+
+			$.each(numOfAnswers, function(index, value) {
+				numOfAnswers[index] = 0;
+			});
+			updateIdolsNum();
 			gameStartCountDown(3);
 		} else if ($btn.hasClass('btn-danger')) {
 			giveUp();
@@ -249,7 +267,7 @@ ImasCg.Ierukana = function () {
 
 			var innerInit = function () {
 				numOfIdols['all'] = jsonData.idols.length;
-				$.each(['cu', 'co', 'pa'], function(index, attr) {
+				$.each(THREE_ATTRIBUTES_ARRAY, function(index, attr) {
 					numOfIdols[attr] = numOfAllIdolsByAttribute(attr);
 					initTableByAttribute(attr);
 				});
@@ -268,21 +286,26 @@ ImasCg.Ierukana = function () {
 				$('#gameStartButton').on('click', function() {
 					gameStartButtonSubmit();
 				});
+				$('#answerArea').on('click', '#resultTweetButton', function() {
+					resultTweetButtonSubmit();
+				});
 			};
 
-			jsonData = $.parseJSON(getCache("imas-cg-ierukana"));
-			if (!jsonData) {
-				$.get('data/idols.json').done(function(data) {
-					var _data = data.replace(/\r\n?/g, '');
-					jsonData = $.parseJSON(_data); 
-					setCache("imas-cg-ierukana", _data);
-					innerInit();
-				}).fail(function(errorData) {
-					$('#messageArea').text('データ読み込みエラー');
-				});
-			} else {
-				innerInit();
-			}
+			innerInit();
+
+		//	jsonData = $.parseJSON(getCache("imas-cg-ierukana"));
+		//	if (!jsonData) {
+		//		$.get('data/idols.json').done(function(data) {
+		//			var _data = data.replace(/\r\n?/g, '');
+		//			jsonData = $.parseJSON(_data); 
+		//			setCache("imas-cg-ierukana", _data);
+		//			innerInit();
+		//		}).fail(function(errorData) {
+		//			$('#messageArea').text('データ読み込みエラー');
+		//		});
+		//	} else {
+		//		innerInit();
+		//	}
 		}
 
 	};
