@@ -88,8 +88,12 @@ ImasCg.Ierukana = function () {
 
 	var resetFormAtGameStart = function() {
 		$('#result-tweet-btn').remove();
+
 		setDifficulty();
-		$('div.radio[id!="radio-' + difficulty +'"]').fadeOut('fast');
+		$('#difficulty-select').fadeOut('fast', function() {
+			$('#difficulty-show').text($('#radio-' + difficulty + ' label').text());
+		});
+
 		numOfRemains = $.extend(true, {}, numOfIdols);
 		$.each(THREE_ATTRIBUTES_ARRAY, function(index, attr) { initTableByAttribute(attr); });
 		updateIdolsNum();
@@ -99,8 +103,10 @@ ImasCg.Ierukana = function () {
 		clearInterval(clearCount);
 		$('#answer-btn').prop('disabled', 'false');
 		$('#game-start-btn').removeClass('btn-danger').addClass('btn-success').val(BUTTON_LABEL['gameStart']);
-		$('input[name="difficulty-radio"]').show().prop('disabled', '');
 		$('#game-start-btn').after($('<input type="button" id="result-tweet-btn" value="結果をツイート" class="btn btn-info">'));
+
+		$('#difficulty-select').show();
+		$('#difficulty-show').text('');
 	};
 
 	var giveUp = function () {
@@ -145,11 +151,11 @@ ImasCg.Ierukana = function () {
 		second = Math.floor(second);
 		minutes = Math.floor(minutes);
 
-		$('#timer-area h2').html(('00' + minutes).slice(-3) + ':' + ('0' + second).slice(-2) + ':' + ('0' + milliSecond).slice(-2));
+		$('#timer-area').html(('00' + minutes).slice(-3) + ':' + ('0' + second).slice(-2) + ':' + ('0' + milliSecond).slice(-2));
 	};
 
 	var resultTweetButtonSubmit = function () {
-		var clearTime = $('#timer-area h2').text();
+		var clearTime = $('#timer-area').text();
 		clearTime = clearTime.replace(':', "分");
 		clearTime = clearTime.replace(':', "秒");
 
@@ -270,11 +276,12 @@ ImasCg.Ierukana = function () {
 
 			var innerInit = function () {
 				numOfIdols['all'] = jsonData.idols.length;
+				numOfRemains['all'] = numOfIdols['all'];
 				$.each(THREE_ATTRIBUTES_ARRAY, function(index, attr) {
 					numOfIdols[attr] = numOfAllIdolsByAttribute(attr);
+					numOfRemains[attr] = numOfIdols[attr];
 					initTableByAttribute(attr);
 				});
-				numOfRemains = $.extend(true, {}, numOfIdols);
 				$('.numOfIdol').text(numOfIdols['all']);
 				$('#num-of-remain').text(numOfIdols['all']);
 

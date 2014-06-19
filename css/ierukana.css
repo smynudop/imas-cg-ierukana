@@ -17,6 +17,7 @@
 	float: left;
 	margin-left: 4px;
 	text-align: center;
+	font-size: 200%;
 }
 
 #remain-area {
@@ -35,6 +36,11 @@
 	margin-left: 6px;
 	margin-right: 8px;
 	text-align: center;
+	font-size: 200%;
+}
+
+#num-of-remain {
+	color: brown;
 }
 
 #answer-btn {

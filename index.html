@@ -45,6 +45,7 @@
 					</div>
 				</div>
 
+				<div id="difficulty-show"></div>
 				<div id="difficulty-select" class="panel panel-info">
 					<div class="panel-heading">
 						<h3 class="panel-title">難易度選択</h3>
@@ -53,31 +54,28 @@
 						<div id="radio-easy" class="radio">
 							<label>
 								<input id="difficulty-radio1" type="radio" name="difficulty-radio" value="easy" />
-								EASY：苗字か名前を、ひらがなか漢字で入力すればＯＫです。初心者Ｐ向け。
+								EASY：苗字か名前を、ひらがなか漢字で入力すればＯＫです。初心者Ｐ向け。（例：しまむら、りん、未央）
 							</label>
 						</div>
 						<div id="radio-normal" class="radio">
 							<label>
 								<input id="difficulty-radio2" type="radio" name="difficulty-radio" value="normal" checked />
-								NORMAL：フルネームをひらがなか漢字で入力すると正解になります。一般的なＰ向け。
+								NORMAL：フルネームをひらがなか漢字で入力すると正解になります。一般的なＰ向け。（例：しまむらうづき、しぶやりん、本田未央）
 							</label>
 						</div>
 						<div id="radio-hard" class="radio">
 							<label>
 								<input id="difficulty-radio3" type="radio" name="difficulty-radio" value="hard" />
-								HARD：フルネームを漢字で入力しないと正解になりません。輝きの向こう側を目指すＰ向け。
+								HARD：フルネームを漢字で入力しないと正解になりません。輝きの向こう側を目指すＰ向け。（例：島村卯月、渋谷凛、本田未央）
 							</label>
 						</div>
+						※外国勢はEASY、NORMALではひらがな・カタカナ両方OK。HARDはカタカナのみです。
 					</div>
 				</div>
 
 				<div id="answer-area" class="row">
-					<div id="timer-area">
-						<h2>000:00:00</h2>
-					</div>
-					<div id="remain-area">
-						<h2>残り<span id="num-of-remain">○○</span>人</h2>
-					</div>
+					<div id="timer-area">000:00:00</div>
+					<div id="remain-area">残り<span id="num-of-remain">○○</span>人</div>
 					<input type="text" id="answer-text" />
 					<input type="button" id="answer-btn" class="btn btn-primary" value="答える" disabled="false" />
 					<input type="button" id="game-start-btn" class="btn btn-success" value="ゲーム開始" />
@@ -112,7 +110,7 @@
 			</div>
 
 			<div id="footer">
-				<p>ネタ元：<a href="http://hoget.web.fc2.com/pokesay.html" target="_blank">初代ポケモン151匹言えるかな？</a></p>
+				<p>当サイトは　<a href="http://hoget.web.fc2.com/pokesay.html" target="_blank">初代ポケモン151匹言えるかな？</a>　様に刺激されて作成されました。</p>
 				<p>作った人：<a href="https://twitter.com/marsa746079" target="_blank">@marsa746079</a></p>
 			</div>
 
