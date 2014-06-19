@@ -303,10 +303,9 @@ ImasCg.Ierukana = function () {
 
 			jsonData = $.parseJSON(getCache("imas-cg-ierukana"));
 			if (!jsonData) {
-				$.get('data/idols.json').done(function(data) {
-					var _data = data.replace(/\r\n?/g, '');
-					jsonData = $.parseJSON(_data); 
-					setCache("imas-cg-ierukana", _data);
+				$.getJSON('data/idols.json').done(function(data) {
+					jsonData = data;
+					setCache("imas-cg-ierukana", data);
 					innerInit();
 				}).fail(function(errorData) {
 					$('#message-area').text('データ読み込みエラー');
