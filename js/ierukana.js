@@ -203,6 +203,10 @@ ImasCg.Ierukana = function () {
 
 				$('#answer-text').val('');
 				$('#message-area').text('');
+
+				if (numOfRemains['all'] == 0) {
+					gameClear();
+				}
 			} else {
 				$('#message-area').text(MESSAGE['alreadyAnswer']);
 			}
