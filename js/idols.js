@@ -189,7 +189,7 @@ var jsonData = {
 {"id":185,"attr":"pa","full_name":"佐藤心","full_name_kana":"さとうしん","first_name":"佐藤","first_name_kana":"さとう","last_name":"心","last_name_kana":"しん"},
 {"id":197,"attr":"pa","full_name":"依田芳乃","full_name_kana":"よりたよしの","first_name":"依田","first_name_kana":"よりた","last_name":"芳乃","last_name_kana":"よしの"},
 {"id":186,"attr":"pa","full_name":"南条光","full_name_kana":"なんじょうひかる","first_name":"南条","first_name_kana":"なんじょう","last_name":"光","last_name_kana":"ひかる"},
-{"id":187,"attr":"pa","full_name":"イヴ・サンタクロース","full_name_kana":"いぶさんたくろーす","first_name":"イヴ・サンタクロース","first_name_kana":"いぶさんたくろーす","last_name":"イヴ・サンタクロース","last_name_kana":"いぶさんたくろーす"},
+{"id":187,"attr":"pa","full_name":"イヴ・サンタクロース","full_name_kana":"いぶさんたくろーす","first_name":"イヴ","first_name_kana":"いぶ","last_name":"サンタクロース","last_name_kana":"さんたくろーす"},
 {"id":192,"attr":"pa","full_name":"萩原雪歩","full_name_kana":"はぎわらゆきほ","first_name":"萩原","first_name_kana":"はぎわら","last_name":"雪歩","last_name_kana":"ゆきほ"},
 {"id":193,"attr":"pa","full_name":"水瀬伊織","full_name_kana":"みなせいおり","first_name":"水瀬","first_name_kana":"みなせ","last_name":"伊織","last_name_kana":"いおり"},
 {"id":194,"attr":"pa","full_name":"双海真美","full_name_kana":"ふたみまみ","first_name":"双海","first_name_kana":"ふたみ","last_name":"真美","last_name_kana":"まみ"},
