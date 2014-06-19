@@ -1,7 +1,8 @@
 var ImasCg = (ImasCg ? ImasCg : {});
 ImasCg.Ierukana = function () {
 
-	var SITE_URL = 'http://marsa746079.github.io/ierukana/';
+	//var SITE_URL = 'http://marsa746079.github.io/ierukana/';
+	var SITE_URL = 'http://goo.gl/6bABpQ';
 
 	var COMPARE_MODE_FLAG = {
 		full_name: 1,
@@ -166,8 +167,8 @@ ImasCg.Ierukana = function () {
 				'normal':'アイドルマスター☆',
 				'hard':'アイドルマスター☆☆',
 			};
-			tweetText = 'あなたは' + clearTime + 'でアイドル'
-				+ numOfIdols['all'] + '人を全て言えた'
+			tweetText = 'あなたは ' + clearTime + ' でアイドル'
+				+ numOfIdols['all'] + '人の名前を全て言えた'
 				+ job[difficulty] + 'です。最後に言ったアイドルは' + lastIdolName + 'です。';
 		} else {
 			var forgetIdols = jsonData.idols.filter(function(v) {
@@ -175,11 +176,11 @@ ImasCg.Ierukana = function () {
 			});
 			var oneForgetIdol = forgetIdols[Math.floor(Math.random() * (forgetIdols.length - 1))];
 
-			tweetText = 'あなたは' + clearTime + 'かけて'
+			tweetText = 'あなたは ' + clearTime + ' かけて'
 				+ (numOfIdols['all'] - numOfRemains['all'])
 				+ '人のアイドルを言うことができました。'
-				+ oneForgetIdol.full_name + '等' + numOfRemains['all']
-				+ '人を言えませんでした。 精進しましょう。';
+				+ oneForgetIdol.full_name + ' 等、' + numOfRemains['all']
+				+ '人の名前を言えませんでした。 精進しましょう。';
 		}
 		var resultTweet = 'https://twitter.com/intent/tweet?hashtags=シンデレラガールズ言えるかな&text='
 		resultTweet = resultTweet + tweetText + SITE_URL;
