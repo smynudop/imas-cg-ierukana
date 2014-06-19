@@ -1,8 +1,7 @@
 var ImasCg = (ImasCg ? ImasCg : {});
 ImasCg.Ierukana = function () {
 
-	//var SITE_URL = 'http://marsa746079.github.io/ierukana/';
-	var SITE_URL = 'http://goo.gl/6bABpQ';
+	var SITE_URL = 'http://marsa746079.github.io/ierukana/';
 
 	var COMPARE_MODE_FLAG = {
 		full_name: 1,
