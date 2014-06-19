@@ -37,6 +37,13 @@
 	text-align: center;
 }
 
+#answerButton {
+}
+#gameStartButton {
+}
+#resultTweetButton {
+}
+
 table {
 	table-layout:fixed;
 }
@@ -56,27 +63,27 @@ table {
 	color: red;
 }
 
-#cu_header {
+#cu-header {
 	color: white;
 	background-color: deeppink;
 
 }
-#cu_header > th {
+#cu-header > th {
 	padding: 4px;
 }
 
-#co_header {
+#co-header {
 	color: white;
 	background-color: blue;
 }
-#co_header > th {
+#co-header > th {
 	padding: 4px;
 }
 
-#pa_header {
+#pa-header {
 	color: white;
 	background-color: orange;
 }
-#pa_header > th {
+#pa-header > th {
 	padding: 4px;
 }

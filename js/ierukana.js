@@ -1,6 +1,8 @@
 var ImasCg = (ImasCg ? ImasCg : {});
 ImasCg.Ierukana = function () {
 
+	var SITE_URL = 'http://marsa746079.github.io/ierukana/';
+
 	var COMPARE_MODE_FLAG = {
 		full_name: 1,
 		full_name_kana: 2,
@@ -23,7 +25,7 @@ ImasCg.Ierukana = function () {
 
 	//var jsonData = null;
 	var numOfIdols = {'all': 0, 'cu': 0, 'co': 0, 'pa': 0 };
-	var numOfAnswers = {'all': 0, 'cu': 0, 'co': 0, 'pa': 0 };
+	var numOfRemains = {'all': 0, 'cu': 0, 'co': 0, 'pa': 0 };
 
 	var compare_mode = null;
 	var difficulty = null;
@@ -78,34 +80,41 @@ ImasCg.Ierukana = function () {
 	};
 
 	var updateIdolsNum = function () {
-		$('#numOfRest').text(numOfIdols['all'] - numOfAnswers['all']);
+		$('#numOfRemain').text(numOfRemains['all']);
 		$.each(THREE_ATTRIBUTES_ARRAY, function(index, attr) {
-			$('#' + attr + '_idols span.rest').text('あと' + (numOfIdols[attr] - numOfAnswers[attr]) + '人');
+			$('#' + attr + '-idols span.remain').text('あと' + numOfRemains[attr] + '人');
 		});
 	};
 
-	var giveUp = function () {
-		clearInterval(clearCount);
-		$('#gameStartButton').removeClass('btn-danger').addClass('btn-success').val(BUTTON_LABEL['gameStart']);
-		$('#answerButton').prop('disabled', 'false');
+	var resetFormAtGameStart = function() {
+		$('#resultTweetButton').remove();
+		setDifficulty();
+		$('div.radio[id!="radio-' + difficulty +'"]').fadeOut('fast');
+		numOfRemains = $.extend(true, {}, numOfIdols);
+		$.each(THREE_ATTRIBUTES_ARRAY, function(index, attr) { initTableByAttribute(attr); });
+		updateIdolsNum();
+	};
 
+	var resetFormAtGameEnd = function() {
+		clearInterval(clearCount);
+		$('#answerButton').prop('disabled', 'false');
+		$('#gameStartButton').removeClass('btn-danger').addClass('btn-success').val(BUTTON_LABEL['gameStart']);
+		$('input[name="difficulty-radio"]').show().prop('disabled', '');
+		$('#gameStartButton').after($('<input type="button" id="resultTweetButton" value="結果をツイート" class="btn btn-info">'));
+	};
+
+	var giveUp = function () {
 		$.each(jsonData.idols, function(index, idol) {
 			if (! idol.answered) {
 				$('#' + idol.id).addClass('giveUp').text(idol.full_name);
 			}
 		});
-
-		$('#gameStartButton').after('<input type="button" id="resultTweetButton" value="結果をツイート" class="btn btn-info">');
+		resetFormAtGameEnd();
 	};
 
 	var gameClear = function () {
 		alert(MESSAGE['gameClear']);
-
-		clearInterval(clearCount);
-		$('#gameStartButton').removeClass('btn-danger').addClass('btn-success').val(BUTTON_LABEL['gameStart']);
-		$('#answerButton').prop('disabled', 'false');
-
-		$('#gameStartButton').after('<input type="button" id="resultTweetButton" value="結果をツイート" class="btn btn-info">');
+		resetFormAtGameEnd();
 	};
 
 	var gameStartCountDown = function (count) {
@@ -145,25 +154,29 @@ ImasCg.Ierukana = function () {
 		clearTime = clearTime.replace(':', "秒");
 
 		var tweetText = '';
-		if (numOfAnswers['all'] == numOfIdols['all']) {
-			tweetText = "あなたは" + clearTime + "でアイドル" + numOfIdols['all'] + "人を全て言えた真・アイドルマスターです。 最後に言ったアイドルは" + lastIdolName + "です。";
+		if (numOfRemains['all'] == 0) {
+			var job = {
+				'easy':'アイドルマスター',
+				'normal':'アイドルマスター☆',
+				'hard':'アイドルマスター☆☆',
+			};
+			tweetText = 'あなたは' + clearTime + 'でアイドル'
+				+ numOfIdols['all'] + '人を全て言えた'
+				+ job[difficulty] + 'です。最後に言ったアイドルは' + lastIdolName + 'です。';
 		} else {
-			//	forgetIdols = idolsArray[answerFlag.indexOf(0)];
+			var forgetIdols = jsonData.idols.filter(function(v) {
+				return !v.answered;
+			});
+			var oneForgetIdol = forgetIdols[Math.floor(Math.random() * (forgetIdols.length - 1))];
 
-			for (var i = 0; i < numOfIdols['all']; i++) {
-				answerFlagCopy[i] = answerFlag[i];
-			}
-
-			for (var i = 0; i < numOfIdols['all'] - answerSum; i++) {
-				incorrectArray[i] = idolsArray[answerFlagCopy.indexOf(0)];
-				answerFlagCopy[answerFlagCopy.indexOf(0)] = 1;
-			}
-			forgetIdols = incorrectArray[Math.floor(Math.random() * (numOfIdols['all'] - answerSum))];
-
-			tweetText = "あなたは" + clearTime + "かけて" + (numOfAnswers['all']) + "人のアイドルを言うことができました。 " + forgetIdols + "等" + (numOfIdols['all'] - numOfAnswers['all']) + "人を言えませんでした。 精進しましょう。";
+			tweetText = 'あなたは' + clearTime + 'かけて'
+				+ (numOfIdols['all'] - numOfRemains['all'])
+				+ '人のアイドルを言うことができました。'
+				+ oneForgetIdol.full_name + '等' + numOfRemains['all']
+				+ '人を言えませんでした。 精進しましょう。';
 		}
-		var resultTweet = 'https://twitter.com/intent/tweet?hashtags=モバマスアイドル言えるかな&text='
-		resultTweet = resultTweet + tweetText + "http://hoget.web.fc2.com/pokesay.html";
+		var resultTweet = 'https://twitter.com/intent/tweet?hashtags=シンデレラガールズ言えるかな&text='
+		resultTweet = resultTweet + tweetText + SITE_URL;
 		window.open(encodeURI(resultTweet));
 	};
 
@@ -178,8 +191,8 @@ ImasCg.Ierukana = function () {
 				idol.answered = true;
 				lastIdolName = idol.full_name;
 
-				numOfAnswers['all'] += 1;
-				numOfAnswers[idol.attr] += 1;
+				numOfRemains['all'] -= 1;
+				numOfRemains[idol.attr] -= 1;
 				updateIdolsNum();
 
 				$('#answerText').val('');
@@ -195,17 +208,7 @@ ImasCg.Ierukana = function () {
 	var gameStartButtonSubmit = function () {
 		var $btn = $('#gameStartButton');
 		if ($btn.hasClass('btn-success')) {
-			setDifficulty();
-			$.each(THREE_ATTRIBUTES_ARRAY, function(index, attr) { initTableByAttribute(attr); });
-			initTableByAttribute('cu');
-			initTableByAttribute('co');
-			initTableByAttribute('pa');
-			$("#resultTweetButton").remove();
-
-			$.each(numOfAnswers, function(index, value) {
-				numOfAnswers[index] = 0;
-			});
-			updateIdolsNum();
+			resetFormAtGameStart();
 			gameStartCountDown(3);
 		} else if ($btn.hasClass('btn-danger')) {
 			giveUp();
@@ -214,7 +217,7 @@ ImasCg.Ierukana = function () {
 	};
 
 	var setDifficulty = function () {
-		difficulty = $('input[name="difficultyRadio"]:checked').val();
+		difficulty = $('input[name="difficulty-radio"]:checked').val();
 		compare_mode = 0;
 		switch (difficulty) {
 			case 'easy':
@@ -233,9 +236,9 @@ ImasCg.Ierukana = function () {
 	};
 
 	var initTableByAttribute = function (attr) {
-		var tableId = '#' + attr + '_idols';
+		var tableId = '#' + attr + '-idols';
 
-		$(tableId + ' span.rest').text('あと' + numOfIdols[attr] + '人');
+		$(tableId + ' span.remain').text('あと' + numOfRemains[attr] + '人');
 		$(tableId + ' tbody').html('');
 
 		var $tr = $('<tr></tr>');
@@ -271,9 +274,9 @@ ImasCg.Ierukana = function () {
 					numOfIdols[attr] = numOfAllIdolsByAttribute(attr);
 					initTableByAttribute(attr);
 				});
-
+				numOfRemains = $.extend(true, {}, numOfIdols);
 				$('.numOfIdol').text(numOfIdols['all']);
-				$('#numOfRest').text(numOfIdols['all']);
+				$('#numOfRemain').text(numOfIdols['all']);
 
 				$('#answerText').on('keypress', function(e) {
 					if (e.which == 13) {
@@ -310,3 +313,4 @@ ImasCg.Ierukana = function () {
 
 	};
 }();
+$(function(){ ImasCg.Ierukana.init(); });
