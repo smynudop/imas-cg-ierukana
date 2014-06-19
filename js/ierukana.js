@@ -80,14 +80,14 @@ ImasCg.Ierukana = function () {
 	};
 
 	var updateIdolsNum = function () {
-		$('#numOfRemain').text(numOfRemains['all']);
+		$('#num-of-remain').text(numOfRemains['all']);
 		$.each(THREE_ATTRIBUTES_ARRAY, function(index, attr) {
 			$('#' + attr + '-idols span.remain').text('あと' + numOfRemains[attr] + '人');
 		});
 	};
 
 	var resetFormAtGameStart = function() {
-		$('#resultTweetButton').remove();
+		$('#result-tweet-btn').remove();
 		setDifficulty();
 		$('div.radio[id!="radio-' + difficulty +'"]').fadeOut('fast');
 		numOfRemains = $.extend(true, {}, numOfIdols);
@@ -97,10 +97,10 @@ ImasCg.Ierukana = function () {
 
 	var resetFormAtGameEnd = function() {
 		clearInterval(clearCount);
-		$('#answerButton').prop('disabled', 'false');
-		$('#gameStartButton').removeClass('btn-danger').addClass('btn-success').val(BUTTON_LABEL['gameStart']);
+		$('#answer-btn').prop('disabled', 'false');
+		$('#game-start-btn').removeClass('btn-danger').addClass('btn-success').val(BUTTON_LABEL['gameStart']);
 		$('input[name="difficulty-radio"]').show().prop('disabled', '');
-		$('#gameStartButton').after($('<input type="button" id="resultTweetButton" value="結果をツイート" class="btn btn-info">'));
+		$('#game-start-btn').after($('<input type="button" id="result-tweet-btn" value="結果をツイート" class="btn btn-info">'));
 	};
 
 	var giveUp = function () {
@@ -118,7 +118,7 @@ ImasCg.Ierukana = function () {
 	};
 
 	var gameStartCountDown = function (count) {
-		$('#gameStartButton').val(count).prop('disabled', 'false');
+		$('#game-start-btn').val(count).prop('disabled', 'false');
 		if (count == 0) {
 			gameStart();
 			return;
@@ -128,8 +128,8 @@ ImasCg.Ierukana = function () {
 	};
 
 	var gameStart = function () {
-		$('#gameStartButton').removeClass('btn-success').addClass('btn-danger').prop('disabled', '').val(BUTTON_LABEL['giveUp']);
-		$('#answerButton').prop('disabled', '');
+		$('#game-start-btn').removeClass('btn-success').addClass('btn-danger').prop('disabled', '').val(BUTTON_LABEL['giveUp']);
+		$('#answer-btn').prop('disabled', '');
 		startUnixTime = parseInt((new Date) / 1);
 		clearCount = setInterval(function() { countUpStart(startUnixTime); }, 10);
 	};
@@ -145,11 +145,11 @@ ImasCg.Ierukana = function () {
 		second = Math.floor(second);
 		minutes = Math.floor(minutes);
 
-		$('#timerArea h2').html(('00' + minutes).slice(-3) + ':' + ('0' + second).slice(-2) + ':' + ('0' + milliSecond).slice(-2));
+		$('#timer-area h2').html(('00' + minutes).slice(-3) + ':' + ('0' + second).slice(-2) + ':' + ('0' + milliSecond).slice(-2));
 	};
 
 	var resultTweetButtonSubmit = function () {
-		var clearTime = $('#timerArea h2').text();
+		var clearTime = $('#timer-area h2').text();
 		clearTime = clearTime.replace(':', "分");
 		clearTime = clearTime.replace(':', "秒");
 
@@ -181,7 +181,7 @@ ImasCg.Ierukana = function () {
 	};
 
 	var answerButtonSubmit = function () {
-		var answer = $('#answerText').val();
+		var answer = $('#answer-text').val();
 		answer = answer.replace('・', '');
 
 		var idol = getIdolByName(answer, compare_mode);
@@ -195,18 +195,18 @@ ImasCg.Ierukana = function () {
 				numOfRemains[idol.attr] -= 1;
 				updateIdolsNum();
 
-				$('#answerText').val('');
-				$('#messageArea').text('');
+				$('#answer-text').val('');
+				$('#message-area').text('');
 			} else {
-				$('#messageArea').text(MESSAGE['alreadyAnswer']);
+				$('#message-area').text(MESSAGE['alreadyAnswer']);
 			}
 		} else {
-			$('#messageArea').text(MESSAGE['notExist']);
+			$('#message-area').text(MESSAGE['notExist']);
 		}
 	};
 
 	var gameStartButtonSubmit = function () {
-		var $btn = $('#gameStartButton');
+		var $btn = $('#game-start-btn');
 		if ($btn.hasClass('btn-success')) {
 			resetFormAtGameStart();
 			gameStartCountDown(3);
@@ -276,39 +276,37 @@ ImasCg.Ierukana = function () {
 				});
 				numOfRemains = $.extend(true, {}, numOfIdols);
 				$('.numOfIdol').text(numOfIdols['all']);
-				$('#numOfRemain').text(numOfIdols['all']);
+				$('#num-of-remain').text(numOfIdols['all']);
 
-				$('#answerText').on('keypress', function(e) {
+				$('#answer-text').on('keypress', function(e) {
 					if (e.which == 13) {
 						answerButtonSubmit();
 					}
 				});
-				$('#answerButton').on('click', function() {
+				$('#answer-btn').on('click', function() {
 					answerButtonSubmit();
 				});
-				$('#gameStartButton').on('click', function() {
+				$('#game-start-btn').on('click', function() {
 					gameStartButtonSubmit();
 				});
-				$('#answerArea').on('click', '#resultTweetButton', function() {
+				$('#answer-area').on('click', '#result-tweet-btn', function() {
 					resultTweetButtonSubmit();
 				});
 			};
 
-			innerInit();
-
-		//	jsonData = $.parseJSON(getCache("imas-cg-ierukana"));
-		//	if (!jsonData) {
-		//		$.get('data/idols.json').done(function(data) {
-		//			var _data = data.replace(/\r\n?/g, '');
-		//			jsonData = $.parseJSON(_data); 
-		//			setCache("imas-cg-ierukana", _data);
-		//			innerInit();
-		//		}).fail(function(errorData) {
-		//			$('#messageArea').text('データ読み込みエラー');
-		//		});
-		//	} else {
-		//		innerInit();
-		//	}
+			jsonData = $.parseJSON(getCache("imas-cg-ierukana"));
+			if (!jsonData) {
+				$.get('data/idols.json').done(function(data) {
+					var _data = data.replace(/\r\n?/g, '');
+					jsonData = $.parseJSON(_data); 
+					setCache("imas-cg-ierukana", _data);
+					innerInit();
+				}).fail(function(errorData) {
+					$('#message-area').text('データ読み込みエラー');
+				});
+			} else {
+				innerInit();
+			}
 		}
 
 	};

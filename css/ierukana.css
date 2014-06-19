@@ -1,8 +1,8 @@
-#tweetButton {
+#tweet-btn {
 	margin-top: 15px;
 }
 
-#timerArea {
+#timer-area {
 	max-width: 300px;
 	min-width: 200px;
 	margin: 0 auto 20px;
@@ -19,7 +19,7 @@
 	text-align: center;
 }
 
-#remainArea {
+#remain-area {
 	max-width: 300px;
 	min-width: 200px;
 	margin: 0 auto 20px;
@@ -37,29 +37,29 @@
 	text-align: center;
 }
 
-#answerButton {
+#answer-btn {
 }
-#gameStartButton {
+#game-start-btn {
 }
-#resultTweetButton {
+#result-tweet-btn {
 }
 
 table {
 	table-layout:fixed;
 }
 
-#messageArea {
+#message-area {
 	color: red;
 }
 
-#tableArea td {
+#table-area td {
 	padding: 2px;
 	font-size: 80%;
 }
-#tableArea td.answered {
+#table-area td.answered {
 	background-color: cyan;
 }
-#tableArea td.giveUp {
+#table-area td.giveUp {
 	color: red;
 }
 
