@@ -55,17 +55,15 @@ ImasCg.Ierukana = function () {
 	};
 
 	var getIdolByName = function(name, compare_flags) {
-		var result = null;
+		var result = [];
 		$.each(jsonData.idols, function(index, idol) {
 			$.each(COMPARE_MODE_FLAG, function(key, compare_flag) {
 				if (compare_flags & compare_flag) {
 					if (idol[key].replace('・', '') === name) {
-						result = idol;
-						return;
+						result.push(idol);
 					}
 				}
 			});
-			if (result) return;
 		});
 		return result;
 	};
@@ -142,11 +140,9 @@ ImasCg.Ierukana = function () {
 
 	var countUpStart = function () {
 		var nextUnixTime = parseInt((new Date) / 1);
-		var wTime;
+		var wTime = (nextUnixTime - startUnixTime) % 60000;
 		var minutes = (nextUnixTime - startUnixTime) / 60000;
-		wTime = (nextUnixTime - startUnixTime) % 60000;
 		var second = (wTime / 1000);
-
 		var milliSecond = Math.floor((second * 100)) % 100;
 		second = Math.floor(second);
 		minutes = Math.floor(minutes);
@@ -179,7 +175,7 @@ ImasCg.Ierukana = function () {
 				+ (numOfIdols['all'] - numOfRemains['all'])
 				+ '人のアイドルを言うことができました。'
 				+ oneForgetIdol.full_name + ' 等、' + numOfRemains['all']
-				+ '人の名前を言えませんでした。 精進しましょう。';
+				+ '人の名前を言えませんでした。精進しましょう。';
 		}
 		var resultTweet = 'https://twitter.com/intent/tweet?hashtags=シンデレラガールズ言えるかな&text='
 		resultTweet = resultTweet + tweetText + SITE_URL;
@@ -190,9 +186,11 @@ ImasCg.Ierukana = function () {
 		var answer = $('#answer-text').val();
 		answer = answer.replace('・', '');
 
-		var idol = getIdolByName(answer, compare_mode);
-		if (idol) {
-			if (! idol.answered) {
+		var idolsHitName = getIdolByName(answer, compare_mode);
+		if (idolsHitName.length > 0) {
+			var idolsNotAnswered = idolsHitName.filter(function(v){ return !v.answered; });
+			if (idolsNotAnswered.length > 0) {
+				var idol = idolsNotAnswered[0];
 				$('#' + idol.id).addClass('answered').text(idol.full_name);
 				idol.answered = true;
 				lastIdolName = idol.full_name;
