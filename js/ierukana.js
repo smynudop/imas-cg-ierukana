@@ -33,19 +33,6 @@ ImasCg.Ierukana = function () {
 	var clearCount = null;
 	var lastIdolName = null;
 
-	var getCache = function(key) {
-		if (!sessionStorage) return null;
-		return sessionStorage.getItem(key);
-	};
-
-	var setCache = function(key, item) {
-		if (!sessionStorage) return;
-		if ((typeof item) !== 'string')
-			sessionStorage.setItem(key, JSON.stringify(item));
-		else
-			sessionStorage.setItem(key, item);
-	};
-
 	var getIdolById = function(id) {
 		$.each(jsonData.idols, function(index, idol) {
 			if (idol.id === id)
@@ -276,6 +263,8 @@ ImasCg.Ierukana = function () {
 
 		init: function () {
 
+			jsonData = null;
+
 			var innerInit = function () {
 				numOfIdols['all'] = jsonData.idols.length;
 				numOfRemains['all'] = numOfIdols['all'];
@@ -303,18 +292,13 @@ ImasCg.Ierukana = function () {
 				});
 			};
 
-			jsonData = $.parseJSON(getCache("imas-cg-ierukana"));
-			if (!jsonData) {
-				$.getJSON('data/idols.json').done(function(data) {
-					jsonData = data;
-					setCache("imas-cg-ierukana", data);
-					innerInit();
-				}).fail(function(errorData) {
-					$('#message-area').text('データ読み込みエラー');
-				});
-			} else {
+			$.getJSON('data/idols.json').done(function(data) {
+				jsonData = data;
 				innerInit();
-			}
+			}).fail(function(errorData) {
+				$('#message-area').text('データ読み込みエラー');
+			});
+
 		}
 
 	};
