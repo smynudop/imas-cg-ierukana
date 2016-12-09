@@ -60,6 +60,7 @@
 {"id":58,"attr":"cu","full_name":"大沼くるみ","full_name_kana":"おおぬまくるみ","first_name":"大沼","first_name_kana":"おおぬま","last_name":"くるみ","last_name_kana":"くるみ"},
 {"id":59,"attr":"cu","full_name":"一ノ瀬志希","full_name_kana":"いちのせしき","first_name":"一ノ瀬","first_name_kana":"いちのせ","last_name":"志希","last_name_kana":"しき"},
 {"id":198,"attr":"cu","full_name":"乙倉悠貴","full_name_kana":"おとくらゆうき","first_name":"乙倉","first_name_kana":"おとくら","last_name":"悠貴","last_name_kana":"ゆうき"},
+{"id":201,"attr":"cu","full_name":"日高愛","full_name_kana":"ひだかあい","first_name":"日高","first_name_kana":"ひだか","last_name":"愛","last_name_kana":"あい"},
 {"id":60,"attr":"cu","full_name":"原田美世","full_name_kana":"はらだみよ","first_name":"原田","first_name_kana":"はらだ","last_name":"美世","last_name_kana":"みよ"},
 {"id":61,"attr":"cu","full_name":"池袋晶葉","full_name_kana":"いけぶくろあきは","first_name":"池袋","first_name_kana":"いけぶくろ","last_name":"晶葉","last_name_kana":"あきは"},
 {"id":62,"attr":"cu","full_name":"天海春香","full_name_kana":"あまみはるか","first_name":"天海","first_name_kana":"あまみ","last_name":"春香","last_name_kana":"はるか"},
@@ -133,6 +134,7 @@
 {"id":129,"attr":"co","full_name":"三浦あずさ","full_name_kana":"みうらあずさ","first_name":"三浦","first_name_kana":"みうら","last_name":"あずさ","last_name_kana":"あずさ"},
 {"id":130,"attr":"co","full_name":"四条貴音","full_name_kana":"しじょうたかね","first_name":"四条","first_name_kana":"しじょう","last_name":"貴音","last_name_kana":"たかね"},
 {"id":131,"attr":"co","full_name":"秋月律子","full_name_kana":"あきづきりつこ","first_name":"秋月","first_name_kana":"あきづき","last_name":"律子","last_name_kana":"りつこ"},
+{"id":202,"attr":"co","full_name":"水谷絵理","full_name_kana":"みずたにえり","first_name":"水谷","first_name_kana":"みずたに","last_name":"絵理","last_name_kana":"えり"},
 {"id":132,"attr":"pa","full_name":"本田未央","full_name_kana":"ほんだみお","first_name":"本田","first_name_kana":"ほんだ","last_name":"未央","last_name_kana":"みお"},
 {"id":133,"attr":"pa","full_name":"高森藍子","full_name_kana":"たかもりあいこ","first_name":"高森","first_name_kana":"たかもり","last_name":"藍子","last_name_kana":"あいこ"},
 {"id":134,"attr":"pa","full_name":"並木芽衣子","full_name_kana":"なみきめいこ","first_name":"並木","first_name_kana":"なみき","last_name":"芽衣子","last_name_kana":"めいこ"},
@@ -195,6 +197,7 @@
 {"id":193,"attr":"pa","full_name":"水瀬伊織","full_name_kana":"みなせいおり","first_name":"水瀬","first_name_kana":"みなせ","last_name":"伊織","last_name_kana":"いおり"},
 {"id":194,"attr":"pa","full_name":"双海真美","full_name_kana":"ふたみまみ","first_name":"双海","first_name_kana":"ふたみ","last_name":"真美","last_name_kana":"まみ"},
 {"id":195,"attr":"pa","full_name":"双海亜美","full_name_kana":"ふたみあみ","first_name":"双海","first_name_kana":"ふたみ","last_name":"亜美","last_name_kana":"あみ"},
-{"id":196,"attr":"pa","full_name":"星井美希","full_name_kana":"ほしいみき","first_name":"星井","first_name_kana":"ほしい","last_name":"美希","last_name_kana":"みき"}
+{"id":196,"attr":"pa","full_name":"星井美希","full_name_kana":"ほしいみき","first_name":"星井","first_name_kana":"ほしい","last_name":"美希","last_name_kana":"みき"},
+{"id":203,"attr":"pa","full_name":"秋月涼","full_name_kana":"あきづきりょう","first_name":"秋月","first_name_kana":"あきづき","last_name":"涼","last_name_kana":"りょう"}
 ]
 }
